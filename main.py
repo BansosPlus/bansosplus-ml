@@ -23,20 +23,12 @@ def return_format(code, message, data, is_success=True):
         'data': ret_data
     }
 
-def load_and_preprocess_model(model_path):
-    interpreter = tf.lite.Interpreter(model_path=model_path)
-    interpreter.allocate_tensors()
-    return interpreter
+def load_model(model_path):
+    model = tf.keras.models.load_model(model_path)
+    return model
 
-def predict_bansos(interpreter, input_data,):
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-
-    input_data = np.array(input_data, dtype=np.float32)
-    interpreter.set_tensor(input_details[0]['index'], input_data)
-    interpreter.invoke()
-
-    predictions = interpreter.get_tensor(output_details[0]['index'])
+def predict_bansos(model, input_data):
+    predictions = model.predict(input_data)
     return predictions
 
 @app.get("/")
@@ -58,13 +50,11 @@ def predict_new_user(bansos_registration_id : int, penghasilan : int, jumlah_mak
         'pendidikan': [pendidikan],
     }, index=[0])
 
-    tflite_model_path = "model.tflite"  # Replace with the path to your .tflite file
-    loaded_tflite_model = load_and_preprocess_model(tflite_model_path)
+    model_path = "/root/app/model_bansos.h5"
+    loaded_model = load_model(model_path)
 
-    predictions = predict_bansos(loaded_tflite_model, new_data)
-    print(predictions)
-    score = float(predictions[0])
-    print(score)
+    predictions = predict_bansos(loaded_model, new_data)
+    score = float(predictions[0][0])
     decisions = {}
     
     if score >= 0.75:
