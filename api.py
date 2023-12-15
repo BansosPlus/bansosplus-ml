@@ -47,15 +47,15 @@ def root():
 def predict_new_user(bansos_registration_id : int, penghasilan : int, jumlah_makan : int, berobat : int, tanggungan : int, bahan_bakar : int, jumlah_aset : int, luas_lantai : int, jenis_dinding : int, pendidikan: int):
     
     new_data = pd.DataFrame({
-        'penghasilan': [int(penghasilan)],
-        'jumlah_makan': [int(jumlah_makan)],
-        'berobat': [int(berobat)],
-        'tanggungan': [int(tanggungan)],
-        'bahan_bakar': [int(bahan_bakar)],
-        'jumlah_aset': [int(jumlah_aset)],
-        'luas_lantai': [int(luas_lantai)],
-        'jenis_dinding': [int(jenis_dinding)],
-        'pendidikan': [int(pendidikan)],
+        'penghasilan': [penghasilan],
+        'jumlah_makan': [jumlah_makan],
+        'berobat': [berobat],
+        'tanggungan': [tanggungan],
+        'bahan_bakar': [bahan_bakar],
+        'jumlah_aset': [jumlah_aset],
+        'luas_lantai': [luas_lantai],
+        'jenis_dinding': [jenis_dinding],
+        'pendidikan': [pendidikan],
     }, index=[0])
 
     tflite_model_path = "model.tflite"  # Replace with the path to your .tflite file
