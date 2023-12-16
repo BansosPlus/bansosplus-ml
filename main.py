@@ -61,12 +61,14 @@ def predict_new_user(bansos_registration_id : int, penghasilan : int, jumlah_mak
         decisions['id'] = bansos_registration_id
         decisions['score'] = round(score, 4)
         decisions['status'] = "ACCEPTED"
-        x = requests.put(f'http://35.202.238.22:8001/api/bansos-registration/accept?bansos_registration_id={bansos_registration_id}')
+        point = str(score)
+        x = requests.put(f'http://35.202.238.22:8001/api/bansos-registration/accept?bansos_registration_id={bansos_registration_id}&point={point}')
 
     else:
         decisions['id'] = bansos_registration_id
         decisions['score'] = round(score, 4)
         decisions['status'] = "REJECTED"
-        x = requests.put(f'http://35.202.238.22:8001/api/bansos-registration/reject?bansos_registration_id={bansos_registration_id}')  
+        point = str(score)
+        x = requests.put(f'http://35.202.238.22:8001/api/bansos-registration/reject?bansos_registration_id={bansos_registration_id}&point={point}')  
 
     return return_format(200, 'Successfully doing prediction for new user', decisions)
